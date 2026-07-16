@@ -14,17 +14,13 @@ import { compliments } from './data/compliments';
 import { storyChapters } from './data/story';
 import { useCompliments } from './hooks/useCompliments';
 import { useReducedMotion } from './hooks/useReducedMotion';
-
-function scrollToSection(id: string, reducedMotion: boolean) {
-  document.getElementById(id)?.scrollIntoView({
-    behavior: reducedMotion ? 'auto' : 'smooth',
-    block: 'start',
-  });
-}
+import { useSceneNavigation } from './hooks/useSceneNavigation';
 
 function App() {
   const reducedMotion = useReducedMotion();
   const complimentProgress = useCompliments();
+  const { resetCompliments } = complimentProgress;
+  const navigateToScene = useSceneNavigation(reducedMotion);
   const [isGiftOpen, setIsGiftOpen] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
   const [isHeartComplete, setIsHeartComplete] = useState(false);
@@ -43,16 +39,16 @@ function App() {
   }, [isGiftOpen]);
 
   const handleGiftRevealComplete = useCallback(() => {
-    scrollToSection('komplimente', reducedMotion);
-  }, [reducedMotion]);
+    navigateToScene('komplimente');
+  }, [navigateToScene]);
 
   const handleHoldComplete = useCallback(() => {
     setIsHeartComplete(true);
     setCelebrationKey((current) => current + 1);
   }, []);
 
-  const handleRestart = useCallback(() => {
-    complimentProgress.resetCompliments();
+  const resetJourney = useCallback(() => {
+    resetCompliments();
     setIsGiftOpen(false);
     setStoryIndex(0);
     setIsHeartComplete(false);
@@ -60,8 +56,14 @@ function App() {
     setIsWishVisible(false);
     setHiddenComplimentDismissed(false);
     setJourneyKey((current) => current + 1);
-    window.requestAnimationFrame(() => scrollToSection('start', reducedMotion));
-  }, [complimentProgress, reducedMotion]);
+  }, [resetCompliments]);
+
+  const handleRestart = useCallback(() => {
+    navigateToScene('start', {
+      onArrive: resetJourney,
+      onCancel: resetJourney,
+    });
+  }, [navigateToScene, resetJourney]);
 
   const showHiddenCompliment =
     complimentProgress.discoveredCount >= 7 && !hiddenComplimentDismissed;
@@ -82,7 +84,15 @@ function App() {
       />
 
       <header className="app-topbar">
-        <a aria-label="Zurück zum Anfang" className="app-brand" href="#start">
+        <a
+          aria-label="Zurück zum Anfang"
+          className="app-brand"
+          href="#start"
+          onClick={(event) => {
+            event.preventDefault();
+            navigateToScene('start');
+          }}
+        >
           <span aria-hidden="true" className="app-brand__mark">
             <Heart fill="currentColor" size={18} />
           </span>
@@ -100,7 +110,12 @@ function App() {
           reducedMotion={reducedMotion}
         />
 
-        <section aria-labelledby="compliments-scene-title" className="compliments-scene scene" id="komplimente">
+        <section
+          aria-labelledby="compliments-scene-title"
+          className="compliments-scene scene scene-focus-target"
+          id="komplimente"
+          tabIndex={-1}
+        >
           <div className="compliments-scene__intro">
             <p className="section-kicker">25 + 1 kleine Wahrheiten</p>
             <h2 className="section-title" id="compliments-scene-title">
@@ -117,7 +132,7 @@ function App() {
               discoveredCount={complimentProgress.discoveredCount}
               glowLevel={complimentProgress.glowLevel}
               milestone={complimentProgress.milestone}
-              onContinue={() => scrollToSection('geschichte', reducedMotion)}
+              onContinue={() => navigateToScene('geschichte')}
               onNext={complimentProgress.showNextCompliment}
               reducedMotion={reducedMotion}
               totalCount={compliments.length}
@@ -136,7 +151,7 @@ function App() {
           chapters={storyChapters}
           currentIndex={storyIndex}
           key={`story-${journeyKey}`}
-          onComplete={() => scrollToSection('erinnerung', reducedMotion)}
+          onComplete={() => navigateToScene('erinnerung')}
           onIndexChange={setStoryIndex}
           reducedMotion={reducedMotion}
         />

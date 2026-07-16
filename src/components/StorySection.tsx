@@ -1,5 +1,7 @@
 import {
   useCallback,
+  useEffect,
+  useRef,
   useState,
   type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
@@ -32,13 +34,13 @@ const cardVariants: Variants = {
   center: { opacity: 1, scale: 1, x: 0 },
   enter: (direction: number) => ({
     opacity: 0,
-    scale: 0.985,
-    x: direction * 54,
+    scale: 0.992,
+    x: direction * 34,
   }),
   exit: (direction: number) => ({
     opacity: 0,
-    scale: 0.985,
-    x: direction * -54,
+    scale: 0.992,
+    x: direction * -34,
   }),
 };
 
@@ -54,19 +56,48 @@ export function StorySection({
   const safeIndex = chapters.length > 0 ? Math.max(0, Math.min(currentIndex, chapters.length - 1)) : 0;
   const chapter = chapters[safeIndex];
   const [direction, setDirection] = useState(1);
+  const transitionLockRef = useRef(false);
+  const transitionTimerRef = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (transitionTimerRef.current !== null) {
+        window.clearTimeout(transitionTimerRef.current);
+      }
+    },
+    [],
+  );
+
+  const lockTransition = useCallback((durationMs?: number) => {
+    transitionLockRef.current = true;
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
+    transitionTimerRef.current = window.setTimeout(
+      () => {
+        transitionLockRef.current = false;
+        transitionTimerRef.current = null;
+      },
+      durationMs ?? (reducedMotion ? 150 : 420),
+    );
+  }, [reducedMotion]);
 
   const move = useCallback(
     (offset: number) => {
-      if (chapters.length === 0) return;
+      if (chapters.length === 0 || transitionLockRef.current) return;
       const nextIndex = safeIndex + offset;
-      setDirection(offset >= 0 ? 1 : -1);
       if (nextIndex >= chapters.length) {
+        lockTransition(reducedMotion ? 150 : 1_100);
         onComplete();
         return;
       }
-      if (nextIndex >= 0) onIndexChange(nextIndex);
+      if (nextIndex < 0) return;
+
+      setDirection(offset >= 0 ? 1 : -1);
+      lockTransition();
+      onIndexChange(nextIndex);
     },
-    [chapters.length, onComplete, onIndexChange, safeIndex],
+    [chapters.length, lockTransition, onComplete, onIndexChange, reducedMotion, safeIndex],
   );
 
   const handleKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
@@ -88,7 +119,11 @@ export function StorySection({
 
   if (!chapter) {
     return (
-      <section className={['story-section', className].filter(Boolean).join(' ')} id="geschichte">
+      <section
+        className={['story-section', 'scene-focus-target', className].filter(Boolean).join(' ')}
+        id="geschichte"
+        tabIndex={-1}
+      >
         <h2 className="story-section__heading">{heading}</h2>
         <p className="story-section__empty">Die Geschichte wartet noch auf ihr erstes Kapitel.</p>
       </section>
@@ -104,7 +139,7 @@ export function StorySection({
   return (
     <section
       aria-label={`${heading}. Mit den Pfeiltasten kann zwischen Kapiteln gewechselt werden.`}
-      className={['story-section', className].filter(Boolean).join(' ')}
+      className={['story-section', 'scene-focus-target', className].filter(Boolean).join(' ')}
       data-chapter={safeIndex + 1}
       id="geschichte"
       onKeyDown={handleKeyDown}
@@ -135,7 +170,7 @@ export function StorySection({
             animate={{ width: `${progress}%` }}
             className="story-section__progress-fill"
             initial={false}
-            transition={{ duration: reducedMotion ? 0.1 : 0.45, ease: 'easeOut' }}
+            transition={{ duration: reducedMotion ? 0.1 : 0.4, ease: [0.22, 0.8, 0.28, 1] }}
           />
         </div>
         <span className="story-section__chapter-count">
@@ -144,7 +179,7 @@ export function StorySection({
       </div>
 
       <div className="story-section__card-stage">
-        <AnimatePresence custom={direction} initial={false} mode="wait">
+        <AnimatePresence custom={direction} initial={false} mode="sync">
           <motion.article
             animate="center"
             aria-labelledby={`story-chapter-${safeIndex}`}
@@ -157,7 +192,7 @@ export function StorySection({
             initial={reducedMotion ? { opacity: 0 } : 'enter'}
             key={chapter.id ?? `${safeIndex}-${chapter.title}`}
             onDragEnd={handleDragEnd}
-            transition={{ duration: reducedMotion ? 0.12 : 0.38, ease: [0.2, 0.75, 0.25, 1] }}
+            transition={{ duration: reducedMotion ? 0.12 : 0.4, ease: [0.22, 0.8, 0.28, 1] }}
             variants={reducedMotion ? undefined : cardVariants}
           >
             <motion.div

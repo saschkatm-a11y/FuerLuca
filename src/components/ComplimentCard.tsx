@@ -102,8 +102,8 @@ export function ComplimentCard({
         Liebe Worte für Zoey
       </h2>
 
-      <div aria-atomic="true" aria-live="polite" className="compliment-card__message-wrap">
-        <AnimatePresence initial={false} mode="wait">
+      <div aria-hidden="true" className="compliment-card__message-wrap">
+        <AnimatePresence initial={false} mode="sync">
           <motion.blockquote
             animate={{ opacity: 1, rotateX: 0, y: 0 }}
             className="compliment-card__message"
@@ -116,6 +116,9 @@ export function ComplimentCard({
           </motion.blockquote>
         </AnimatePresence>
       </div>
+      <span aria-atomic="true" aria-live="polite" className="sr-only">
+        {`„${compliment}“`}
+      </span>
 
       <motion.p
         animate={reducedMotion ? undefined : { scale: [1, 1.04, 1] }}

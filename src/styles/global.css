@@ -36,7 +36,9 @@
 
 html {
   min-width: 320px;
-  scroll-behavior: smooth;
+  overflow-anchor: none;
+  scroll-behavior: auto;
+  scrollbar-gutter: stable;
   background: #170d1d;
 }
 
@@ -70,6 +72,10 @@ a:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 4px;
+}
+
+.scene-focus-target:focus:not(:focus-visible) {
+  outline: none;
 }
 
 ::selection {
@@ -112,6 +118,10 @@ a:focus-visible,
     radial-gradient(circle at 58% 83%, rgba(255, 214, 132, 0.1), transparent 24%);
   filter: blur(48px);
   animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+html.is-scene-navigating .app-shell__aurora {
+  animation-play-state: paused;
 }
 
 .app-topbar {

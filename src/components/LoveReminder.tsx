@@ -36,8 +36,9 @@ export function LoveReminder({
   return (
     <section
       aria-labelledby="love-reminder-heading"
-      className={['love-reminder', className].filter(Boolean).join(' ')}
+      className={['love-reminder', 'scene-focus-target', className].filter(Boolean).join(' ')}
       id="erinnerung"
+      tabIndex={-1}
     >
       <FloatingHearts count={12} reducedMotion={reducedMotion} seed={31} />
       <ParticleLayer

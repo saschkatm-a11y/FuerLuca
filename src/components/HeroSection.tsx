@@ -72,8 +72,9 @@ export function HeroSection({
     <section
       aria-busy={!isReady}
       aria-labelledby="hero-title"
-      className={['hero-section', className].filter(Boolean).join(' ')}
+      className={['hero-section', 'scene-focus-target', className].filter(Boolean).join(' ')}
       id="start"
+      tabIndex={-1}
     >
       <FloatingHearts count={18} reducedMotion={reducedMotion} seed={14} />
       <span aria-hidden="true" className="hero-section__glow hero-section__glow--one" />

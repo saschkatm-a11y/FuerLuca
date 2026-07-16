@@ -23,7 +23,7 @@ export function GiftReveal({
 
     const timer = window.setTimeout(
       () => onRevealComplete?.(),
-      reducedMotion ? 160 : 1150,
+      reducedMotion ? 650 : 1850,
     );
     return () => window.clearTimeout(timer);
   }, [isOpen, onRevealComplete, reducedMotion]);

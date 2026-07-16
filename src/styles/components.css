@@ -75,6 +75,13 @@
   color: var(--rose-300);
 }
 
+.hero-section,
+.compliments-scene,
+.story-section,
+.love-reminder {
+  overflow-anchor: none;
+}
+
 /* Hero and gift */
 .hero-section {
   position: relative;
@@ -460,6 +467,7 @@
   font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(1.32rem, 2.7vw, 1.86rem);
   font-style: italic;
+  grid-area: 1 / 1;
   line-height: 1.55;
   text-wrap: pretty;
 }
@@ -536,7 +544,7 @@
   isolation: isolate;
   outline: none;
   scroll-margin-top: 0;
-  transition: background 500ms ease;
+  transition: background 400ms cubic-bezier(0.22, 0.8, 0.28, 1);
 }
 
 .story-section[data-chapter="1"] {
@@ -650,6 +658,7 @@
 
 .story-section__card {
   display: flex;
+  width: 100%;
   min-height: 370px;
   align-items: center;
   flex-direction: column;
@@ -664,6 +673,7 @@
   box-shadow: var(--shadow), 0 0 55px color-mix(in srgb, var(--story-accent) 13%, transparent), inset 0 1px rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(24px);
   cursor: grab;
+  grid-area: 1 / 1;
 }
 
 .story-section__card:active {
@@ -1071,6 +1081,10 @@
 }
 
 @media (max-width: 620px) {
+  .floating-hearts__item:nth-child(n + 9) {
+    display: none;
+  }
+
   .hero-section {
     padding: 96px 16px 72px;
   }
@@ -1101,6 +1115,12 @@
     min-height: 560px;
     padding: 32px 21px;
     border-radius: 27px;
+  }
+
+  .compliment-card,
+  .story-section__card,
+  .love-reminder__card {
+    backdrop-filter: blur(14px) saturate(1.08);
   }
 
   .compliment-card__message-wrap {
