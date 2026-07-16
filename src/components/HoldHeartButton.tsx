@@ -23,7 +23,7 @@ const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 export function HoldHeartButton({
   label = "Drück mich ganz fest 💗",
-  completedMessage = "Ich hab dich lieb, Zoey.",
+  completedMessage = "Ich liebe dich, Zoey.",
   duration = 2_000,
   disabled = false,
   className = "",

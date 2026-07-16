@@ -260,15 +260,14 @@
 .gift-reveal__box,
 .gift-reveal__lid {
   position: absolute;
-  left: 50%;
   border: 1px solid rgba(255, 238, 226, 0.48);
   background: linear-gradient(145deg, #e85f8b, #a54eac);
   box-shadow: 0 15px 35px rgba(101, 28, 79, 0.38), inset 0 1px rgba(255, 255, 255, 0.32);
-  transform: translateX(-50%);
 }
 
 .gift-reveal__box {
   bottom: 0;
+  left: calc(50% - 51px);
   display: grid;
   width: 102px;
   height: 76px;
@@ -280,6 +279,7 @@
 
 .gift-reveal__lid {
   top: 19px;
+  left: calc(50% - 58px);
   z-index: 2;
   width: 116px;
   height: 28px;

@@ -26,7 +26,7 @@ export interface LoveReminderProps {
 export function LoveReminder({
   celebrationKey,
   className,
-  finalMessage = 'Ich hab dich lieb, Zoey.',
+  finalMessage = 'Ich liebe dich, Zoey.',
   holdButton,
   isComplete,
   lines = defaultLines,
