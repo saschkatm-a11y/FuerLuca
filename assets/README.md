@@ -16,7 +16,7 @@ Der vollständige Projektpfad lautet damit:
 public/assets/love-song.mp3
 ```
 
-Die Website sucht die Musik über den von Vite bereitgestellten Basispfad. Dadurch funktioniert sie sowohl lokal als auch unter dem GitHub-Pages-Pfad `/FuerLuca/`. Fehlt die Datei, bleibt die Website vollständig nutzbar und die Musiksteuerung wird nicht störend angeboten.
+Die Website sucht die Musik über den von Vite bereitgestellten Basispfad. Dadurch funktioniert sie lokal und unter der Custom Domain `zoey.saschaskaskaden.de`. Fehlt die Datei, bleibt die Website vollständig nutzbar und die Musiksteuerung wird nicht störend angeboten.
 
 ## Wichtige Hinweise
 
