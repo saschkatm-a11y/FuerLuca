@@ -1,0 +1,1216 @@
+/* Shared decorative layers */
+.floating-hearts,
+.particle-layer,
+.interaction-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-hearts__item {
+  position: absolute;
+  bottom: -14vh;
+  display: grid;
+  color: var(--rose-300);
+  filter: drop-shadow(0 0 9px rgba(239, 127, 159, 0.35));
+  place-items: center;
+  will-change: transform, opacity;
+}
+
+.particle-layer__particle {
+  position: absolute;
+  top: var(--particle-origin-y);
+  left: var(--particle-origin-x);
+  z-index: 2;
+  display: grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--rose-200);
+  filter: drop-shadow(0 0 8px currentColor);
+  place-items: center;
+  will-change: transform, opacity;
+}
+
+.particle-layer__particle--sparkle {
+  color: var(--gold);
+}
+
+.particle-layer__particle--dot {
+  color: #fff6cd;
+}
+
+.particle-layer__dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.app-gift-burst {
+  position: fixed;
+  z-index: 70;
+}
+
+.interaction-particles {
+  position: fixed;
+  z-index: 100;
+  overflow: visible;
+}
+
+.interaction-particles__item {
+  position: absolute;
+  display: grid;
+  width: var(--particle-size);
+  height: var(--particle-size);
+  color: var(--gold);
+  filter: drop-shadow(0 0 7px currentColor);
+  place-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.interaction-particles__item--heart {
+  color: var(--rose-300);
+}
+
+/* Hero and gift */
+.hero-section {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 116px 20px 86px;
+  isolation: isolate;
+  place-items: center;
+  scroll-margin-top: 0;
+}
+
+.hero-section::before {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  z-index: -1;
+  width: min(820px, 90vw);
+  height: min(820px, 90vw);
+  border: 1px solid rgba(255, 229, 235, 0.08);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(238, 127, 159, 0.09), transparent 62%);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.hero-section__glow {
+  position: absolute;
+  z-index: -1;
+  width: min(36rem, 76vw);
+  height: min(36rem, 76vw);
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.36;
+  pointer-events: none;
+}
+
+.hero-section__glow--one {
+  top: 2%;
+  left: -12%;
+  background: rgba(230, 73, 128, 0.45);
+}
+
+.hero-section__glow--two {
+  right: -14%;
+  bottom: 0;
+  background: rgba(136, 86, 202, 0.42);
+}
+
+.hero-section__loader {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  width: 126px;
+  height: 126px;
+  border: 1px solid rgba(255, 218, 227, 0.22);
+  border-radius: 50%;
+  color: var(--rose-300);
+  background: radial-gradient(circle, rgba(239, 127, 159, 0.22), rgba(58, 20, 52, 0.72));
+  box-shadow: 0 0 80px rgba(223, 84, 127, 0.34), inset 0 0 26px rgba(255, 255, 255, 0.08);
+  place-items: center;
+}
+
+.hero-section__loader::after {
+  position: absolute;
+  inset: -13px;
+  border: 1px solid rgba(255, 217, 226, 0.14);
+  border-radius: inherit;
+  content: "";
+  animation: loader-ring 1.8s ease-in-out infinite;
+}
+
+.hero-section__loader-heart {
+  display: grid;
+  filter: drop-shadow(0 0 18px rgba(239, 127, 159, 0.62));
+  place-items: center;
+}
+
+.hero-section__content {
+  position: relative;
+  z-index: 2;
+  width: min(900px, 100%);
+  text-align: center;
+}
+
+.hero-section__eyebrow,
+.compliment-card__eyebrow,
+.story-section__eyebrow,
+.love-reminder__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 0 0 20px;
+  color: var(--gold);
+  font-size: 0.77rem;
+  font-weight: 700;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.hero-section__title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(3.35rem, 10vw, 8.4rem);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 0.88;
+  text-shadow: 0 14px 50px rgba(9, 3, 16, 0.35);
+  text-wrap: balance;
+}
+
+.hero-section__subtitle {
+  margin: 30px 0 0;
+  color: var(--rose-100);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.35rem, 3vw, 2.05rem);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.hero-section__description {
+  max-width: 680px;
+  margin: 18px auto 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.7vw, 1.17rem);
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+.hero-section__action-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
+}
+
+.hero-section__gift-button,
+.compliment-card__button,
+.story-section__nav-button,
+.love-reminder__restart-button {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 23px;
+  border: 1px solid rgba(255, 224, 231, 0.34);
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fffafb;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  touch-action: manipulation;
+}
+
+.hero-section__gift-button {
+  min-height: 62px;
+  padding-inline: 29px;
+  background: linear-gradient(125deg, #e35b87, #a14fba);
+  box-shadow: 0 18px 46px rgba(205, 71, 126, 0.37), 0 0 50px rgba(231, 92, 137, 0.18), inset 0 1px rgba(255, 255, 255, 0.34);
+  font-size: 1rem;
+}
+
+.hero-section__gift-button:disabled {
+  cursor: default;
+  opacity: 0.78;
+}
+
+.gift-reveal {
+  position: relative;
+  display: grid;
+  width: min(480px, 100%);
+  margin: 36px auto 0;
+  place-items: center;
+}
+
+.gift-reveal__visual {
+  position: relative;
+  width: 118px;
+  height: 112px;
+}
+
+.gift-reveal__box,
+.gift-reveal__lid {
+  position: absolute;
+  left: 50%;
+  border: 1px solid rgba(255, 238, 226, 0.48);
+  background: linear-gradient(145deg, #e85f8b, #a54eac);
+  box-shadow: 0 15px 35px rgba(101, 28, 79, 0.38), inset 0 1px rgba(255, 255, 255, 0.32);
+  transform: translateX(-50%);
+}
+
+.gift-reveal__box {
+  bottom: 0;
+  display: grid;
+  width: 102px;
+  height: 76px;
+  overflow: hidden;
+  border-radius: 9px 9px 18px 18px;
+  color: rgba(255, 255, 255, 0.82);
+  place-items: center;
+}
+
+.gift-reveal__lid {
+  top: 19px;
+  z-index: 2;
+  width: 116px;
+  height: 28px;
+  border-radius: 12px 12px 7px 7px;
+  transform-origin: center bottom;
+}
+
+.gift-reveal__ribbon {
+  position: absolute;
+  z-index: 2;
+  background: linear-gradient(#ffe9ad, #e3a957);
+  box-shadow: 0 0 9px rgba(255, 218, 138, 0.38);
+}
+
+.gift-reveal__ribbon--horizontal {
+  top: 9px;
+  right: 0;
+  left: 0;
+  height: 8px;
+}
+
+.gift-reveal__ribbon--vertical {
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 6px);
+  width: 12px;
+}
+
+.gift-reveal__gift-icon {
+  position: relative;
+  z-index: 3;
+}
+
+.gift-reveal__lid-sparkle {
+  position: absolute;
+  top: -16px;
+  right: 6px;
+  color: var(--gold);
+}
+
+.gift-reveal__floating-heart {
+  position: absolute;
+  top: 16px;
+  left: calc(50% - 16px);
+  z-index: 4;
+  color: var(--rose-200);
+  filter: drop-shadow(0 0 12px rgba(247, 169, 189, 0.8));
+}
+
+.gift-reveal__message {
+  margin: 15px 0 0;
+  color: var(--rose-100);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.05rem, 2.4vw, 1.32rem);
+  font-style: italic;
+}
+
+/* Compliment scene */
+.compliments-scene {
+  grid-template-columns: minmax(0, 0.88fr) minmax(430px, 1.12fr);
+  gap: clamp(42px, 7vw, 100px);
+  isolation: isolate;
+}
+
+.compliments-scene::before {
+  position: absolute;
+  top: 17%;
+  right: -20%;
+  z-index: -1;
+  width: 46rem;
+  height: 46rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(157, 89, 191, 0.19), transparent 67%);
+  content: "";
+  filter: blur(20px);
+}
+
+.compliments-scene__intro {
+  width: 100%;
+}
+
+.compliments-scene__intro .section-copy {
+  margin-left: 0;
+}
+
+.compliments-scene__card-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.compliment-card {
+  position: relative;
+  display: flex;
+  min-height: 600px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(32px, 5vw, 58px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 221, 229, 0.2);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.105), transparent 35%),
+    rgba(61, 22, 54, 0.72);
+  box-shadow: var(--shadow), inset 0 1px rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(24px) saturate(1.15);
+  transition: border-color 350ms ease, box-shadow 350ms ease;
+}
+
+.compliment-card::before {
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  background: conic-gradient(from 20deg, transparent, rgba(239, 127, 159, 0.12), transparent 28%, rgba(255, 217, 138, 0.1), transparent 64%);
+  content: "";
+  animation: card-rotate 14s linear infinite;
+}
+
+.compliment-card--glow-1 {
+  border-color: rgba(255, 205, 218, 0.3);
+  box-shadow: var(--shadow), 0 0 45px rgba(223, 84, 127, 0.2);
+}
+
+.compliment-card--glow-2 {
+  border-color: rgba(255, 211, 143, 0.42);
+  box-shadow: var(--shadow), 0 0 60px rgba(228, 114, 157, 0.28);
+}
+
+.compliment-card--glow-3,
+.compliment-card--glow-4 {
+  border-color: rgba(255, 223, 154, 0.58);
+  box-shadow: var(--shadow), 0 0 80px rgba(236, 126, 170, 0.34), 0 0 130px rgba(164, 95, 210, 0.19);
+}
+
+.compliment-card__icon-wrap {
+  position: relative;
+  display: grid;
+  width: 66px;
+  height: 66px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 220, 227, 0.26);
+  border-radius: 20px;
+  color: var(--rose-200);
+  background: linear-gradient(145deg, rgba(232, 90, 139, 0.2), rgba(160, 79, 184, 0.18));
+  box-shadow: 0 12px 35px rgba(17, 5, 20, 0.25);
+  place-items: center;
+  transform: rotate(-4deg);
+}
+
+.compliment-card__icon-heart {
+  position: absolute;
+  right: 10px;
+  bottom: 9px;
+  color: var(--gold);
+}
+
+.compliment-card__heading {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.compliment-card__message-wrap {
+  display: grid;
+  min-height: 168px;
+  width: 100%;
+  place-items: center;
+  perspective: 800px;
+}
+
+.compliment-card__message {
+  max-width: 620px;
+  margin: 25px 0 18px;
+  color: var(--rose-50);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.32rem, 2.7vw, 1.86rem);
+  font-style: italic;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.compliment-card__counter {
+  margin: 0;
+  color: var(--rose-200);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.compliment-card__milestone {
+  display: flex;
+  max-width: 520px;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 18px 0 0;
+  padding: 13px 16px;
+  border: 1px solid rgba(255, 217, 138, 0.25);
+  border-radius: 15px;
+  color: #ffedbf;
+  background: rgba(255, 217, 138, 0.07);
+  font-size: 0.89rem;
+  line-height: 1.55;
+}
+
+.compliment-card__milestone svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.compliment-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 27px;
+}
+
+.compliment-card__button {
+  font-size: 0.9rem;
+}
+
+.compliment-card__button--primary,
+.story-section__nav-button--next {
+  background: linear-gradient(125deg, #dc517e, #9e51b5);
+  box-shadow: 0 12px 28px rgba(151, 42, 91, 0.28), inset 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.compliment-card__button--secondary,
+.story-section__nav-button--back,
+.love-reminder__restart-button {
+  color: var(--rose-100);
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.09);
+}
+
+.compliments-scene__hidden-message {
+  margin-top: 14px;
+}
+
+/* Story */
+.story-section {
+  --story-accent: #f29ab4;
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 118px max(20px, calc((100vw - 1180px) / 2)) 92px;
+  overflow: hidden;
+  isolation: isolate;
+  outline: none;
+  scroll-margin-top: 0;
+  transition: background 500ms ease;
+}
+
+.story-section[data-chapter="1"] {
+  --story-accent: #ffd18e;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 196, 134, 0.11), transparent 41%);
+}
+
+.story-section[data-chapter="2"] {
+  --story-accent: #ff94b7;
+  background: radial-gradient(circle at 62% 43%, rgba(238, 105, 154, 0.13), transparent 44%);
+}
+
+.story-section[data-chapter="3"] {
+  --story-accent: #d5b0ff;
+  background: radial-gradient(circle at 38% 45%, rgba(163, 110, 220, 0.15), transparent 43%);
+}
+
+.story-section[data-chapter="4"] {
+  --story-accent: #9fbaff;
+  background: radial-gradient(circle at 55% 43%, rgba(92, 106, 190, 0.17), transparent 45%);
+}
+
+.story-section[data-chapter="5"] {
+  --story-accent: #ffc6d5;
+  background: radial-gradient(circle at 50% 43%, rgba(223, 84, 127, 0.18), transparent 45%);
+}
+
+.story-section__ambient {
+  position: absolute;
+  z-index: -1;
+  width: 32rem;
+  height: 32rem;
+  border-radius: 50%;
+  opacity: 0.16;
+  background: var(--story-accent);
+  filter: blur(105px);
+  pointer-events: none;
+}
+
+.story-section__ambient--left {
+  top: 20%;
+  left: -18rem;
+}
+
+.story-section__ambient--right {
+  right: -20rem;
+  bottom: 4%;
+}
+
+.story-section__header {
+  width: min(860px, 100%);
+  text-align: center;
+}
+
+.story-section__heading,
+.love-reminder__heading {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2.65rem, 6vw, 5.7rem);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.story-section__progress-wrap {
+  display: grid;
+  width: min(720px, 100%);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.story-section__progress-track,
+.progress-indicator__track {
+  position: relative;
+  height: 7px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.065);
+}
+
+.story-section__progress-fill,
+.progress-indicator__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--story-accent), var(--gold));
+  box-shadow: 0 0 14px var(--story-accent);
+}
+
+.story-section__chapter-count,
+.progress-indicator__label {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.story-section__card-stage {
+  display: grid;
+  width: min(760px, 100%);
+  min-height: 370px;
+  margin-top: 24px;
+  place-items: stretch;
+  perspective: 1000px;
+}
+
+.story-section__card {
+  display: flex;
+  min-height: 370px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(32px, 6vw, 62px);
+  border: 1px solid color-mix(in srgb, var(--story-accent) 35%, transparent);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), transparent 42%),
+    rgba(48, 18, 47, 0.75);
+  box-shadow: var(--shadow), 0 0 55px color-mix(in srgb, var(--story-accent) 13%, transparent), inset 0 1px rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(24px);
+  cursor: grab;
+}
+
+.story-section__card:active {
+  cursor: grabbing;
+}
+
+.story-section__chapter-icon {
+  display: grid;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 21px;
+  border: 1px solid color-mix(in srgb, var(--story-accent) 45%, transparent);
+  border-radius: 50%;
+  color: var(--story-accent);
+  background: color-mix(in srgb, var(--story-accent) 12%, transparent);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--story-accent) 15%, transparent);
+  place-items: center;
+}
+
+.story-section__chapter-kicker {
+  margin: 0 0 8px;
+  color: var(--story-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.story-section__chapter-title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2rem, 4.7vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.story-section__chapter-text {
+  max-width: 580px;
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: clamp(1.04rem, 2vw, 1.2rem);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+.story-section__navigation {
+  display: flex;
+  width: min(760px, 100%);
+  justify-content: space-between;
+  gap: 13px;
+  margin-top: 20px;
+}
+
+.story-section__nav-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+/* Final reminder */
+.love-reminder {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  padding: 118px 20px 92px;
+  overflow: hidden;
+  isolation: isolate;
+  place-items: center;
+  scroll-margin-top: 0;
+}
+
+.love-reminder__halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: min(900px, 94vw);
+  height: min(900px, 94vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(228, 91, 139, 0.22), rgba(146, 77, 186, 0.08) 40%, transparent 69%);
+  filter: blur(18px);
+  transform: translate(-50%, -50%);
+}
+
+.love-reminder__card {
+  position: relative;
+  z-index: 2;
+  width: min(820px, 100%);
+  padding: clamp(36px, 7vw, 76px);
+  border: 1px solid rgba(255, 220, 229, 0.22);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.115), transparent 38%),
+    rgba(55, 19, 51, 0.76);
+  box-shadow: var(--shadow), 0 0 80px rgba(228, 91, 139, 0.2), inset 0 1px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+}
+
+.love-reminder__icon {
+  position: relative;
+  display: grid;
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 20px;
+  border: 1px solid rgba(255, 220, 230, 0.25);
+  border-radius: 50%;
+  color: var(--rose-300);
+  background: rgba(222, 74, 127, 0.14);
+  box-shadow: 0 0 35px rgba(229, 88, 139, 0.24);
+  place-items: center;
+}
+
+.love-reminder__icon-sparkle {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  color: var(--gold);
+}
+
+.love-reminder__lines {
+  display: grid;
+  gap: 8px;
+  margin: 34px 0 0;
+}
+
+.love-reminder__lines p {
+  margin: 0;
+  color: var(--rose-100);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.3rem, 2.7vw, 1.82rem);
+  line-height: 1.45;
+}
+
+.love-reminder__outro {
+  margin: 30px 0 0;
+  color: var(--gold);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+}
+
+.love-reminder__hold-control {
+  margin-top: 30px;
+}
+
+.hold-heart__button {
+  display: inline-flex;
+  min-width: min(300px, 100%);
+  min-height: 148px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 24px 17px;
+  border: 1px solid rgba(255, 220, 229, 0.28);
+  border-radius: 28px;
+  cursor: pointer;
+  color: var(--rose-200);
+  background: linear-gradient(145deg, rgba(228, 83, 133, 0.17), rgba(155, 76, 181, 0.12));
+  box-shadow: 0 18px 45px rgba(13, 4, 17, 0.22), inset 0 1px rgba(255, 255, 255, 0.11);
+  user-select: none;
+  touch-action: none;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.hold-heart__button:hover {
+  border-color: rgba(255, 220, 229, 0.5);
+  box-shadow: 0 21px 52px rgba(13, 4, 17, 0.28), 0 0 34px rgba(228, 83, 133, 0.13);
+  transform: translateY(-2px);
+}
+
+.hold-heart--active .hold-heart__button {
+  border-color: rgba(255, 216, 227, 0.65);
+  box-shadow: 0 0 54px rgba(230, 91, 140, 0.32), inset 0 0 40px rgba(235, 101, 149, 0.08);
+}
+
+.hold-heart--complete .hold-heart__button {
+  cursor: default;
+  color: #ffe3ea;
+  border-color: rgba(255, 217, 138, 0.53);
+  background: linear-gradient(145deg, rgba(226, 76, 130, 0.24), rgba(255, 211, 132, 0.1));
+}
+
+.hold-heart__visual {
+  position: relative;
+  display: grid;
+  width: 100px;
+  height: 100px;
+  place-items: center;
+}
+
+.hold-heart__ring {
+  position: absolute;
+  inset: -6px;
+  width: 112px;
+  height: 112px;
+}
+
+.hold-heart__ring-track {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.hold-heart__ring-progress {
+  stroke: var(--gold);
+  filter: drop-shadow(0 0 5px rgba(255, 217, 138, 0.66));
+  transition: stroke-dashoffset 40ms linear;
+}
+
+.hold-heart__icon {
+  filter: drop-shadow(0 0 13px rgba(239, 127, 159, 0.44));
+  transition: transform 50ms linear;
+}
+
+.hold-heart__label {
+  color: var(--rose-50);
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.love-reminder__result {
+  min-height: 38px;
+  margin-top: 12px;
+}
+
+.love-reminder__final-message {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: var(--gold);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-style: italic;
+}
+
+.love-reminder__restart-button {
+  margin-top: 22px;
+}
+
+/* Tooltips, music and Easter eggs */
+.music-toggle {
+  backdrop-filter: blur(18px);
+}
+
+.tooltip-message {
+  position: relative;
+  display: flex;
+  width: min(390px, calc(100vw - 32px));
+  align-items: flex-start;
+  gap: 9px;
+  padding: 14px 14px 14px 16px;
+  border: 1px solid rgba(255, 220, 229, 0.25);
+  border-radius: 16px;
+  color: var(--rose-100);
+  text-align: left;
+  background: rgba(49, 18, 46, 0.95);
+  box-shadow: 0 16px 46px rgba(10, 3, 14, 0.42), inset 0 1px rgba(255, 255, 255, 0.1);
+  font-size: 0.87rem;
+  line-height: 1.5;
+  backdrop-filter: blur(18px);
+}
+
+.tooltip-message--gold {
+  border-color: rgba(255, 217, 138, 0.31);
+}
+
+.tooltip-message__spark {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.tooltip-message__text {
+  flex: 1;
+}
+
+.tooltip-message__close {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  margin: -7px -6px -7px 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--muted);
+  background: transparent;
+  place-items: center;
+}
+
+.tooltip-message__close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.easter-eggs {
+  position: relative;
+  z-index: 45;
+}
+
+.easter-eggs__heart,
+.easter-eggs__star-wrap {
+  position: fixed;
+  bottom: 22px;
+}
+
+.easter-eggs__heart {
+  left: 22px;
+}
+
+.easter-eggs__star-wrap {
+  right: 22px;
+}
+
+.secret-heart__button,
+.easter-eggs__star {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 228, 235, 0.16);
+  border-radius: 50%;
+  cursor: pointer;
+  color: rgba(255, 226, 233, 0.38);
+  background: rgba(42, 16, 40, 0.52);
+  box-shadow: 0 9px 26px rgba(7, 2, 10, 0.2);
+  backdrop-filter: blur(14px);
+  place-items: center;
+  transition: color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.secret-heart__button:hover,
+.easter-eggs__star:hover {
+  color: var(--gold);
+  border-color: rgba(255, 217, 138, 0.38);
+  box-shadow: 0 0 28px rgba(255, 217, 138, 0.12);
+  transform: translateY(-2px) rotate(4deg);
+}
+
+.secret-heart__button--discovered {
+  color: var(--rose-300);
+}
+
+.secret-heart .tooltip-message,
+.easter-eggs__wish {
+  position: absolute;
+  bottom: 58px;
+}
+
+.secret-heart .tooltip-message {
+  left: 0;
+}
+
+.easter-eggs__wish {
+  right: 0;
+}
+
+.app-footer__spark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.progress-indicator {
+  display: grid;
+  gap: 9px;
+}
+
+@keyframes loader-ring {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes card-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .compliments-scene {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    padding-top: 112px;
+  }
+
+  .compliments-scene__intro {
+    max-width: 720px;
+    text-align: center;
+  }
+
+  .compliments-scene__intro .section-copy {
+    margin-left: auto;
+  }
+
+  .compliments-scene__card-wrap {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-section {
+    padding: 96px 16px 72px;
+  }
+
+  .hero-section__title {
+    font-size: clamp(3.2rem, 20vw, 5.1rem);
+    line-height: 0.92;
+  }
+
+  .hero-section__eyebrow,
+  .compliment-card__eyebrow,
+  .story-section__eyebrow,
+  .love-reminder__eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+  }
+
+  .hero-section__gift-button {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .compliments-scene {
+    gap: 32px;
+  }
+
+  .compliment-card {
+    min-height: 560px;
+    padding: 32px 21px;
+    border-radius: 27px;
+  }
+
+  .compliment-card__message-wrap {
+    min-height: 190px;
+  }
+
+  .compliment-card__actions,
+  .story-section__navigation {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .compliment-card__button,
+  .story-section__nav-button {
+    width: 100%;
+  }
+
+  .story-section {
+    padding: 96px 14px 74px;
+  }
+
+  .story-section__progress-wrap {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .story-section__chapter-count {
+    text-align: center;
+  }
+
+  .story-section__card-stage,
+  .story-section__card {
+    min-height: 390px;
+  }
+
+  .story-section__card {
+    padding: 31px 22px;
+    border-radius: 27px;
+  }
+
+  .story-section__nav-button--back {
+    order: 2;
+  }
+
+  .love-reminder {
+    padding: 96px 13px 74px;
+  }
+
+  .love-reminder__card {
+    padding: 34px 20px;
+    border-radius: 27px;
+  }
+
+  .hold-heart__button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .easter-eggs__heart,
+  .easter-eggs__star-wrap {
+    bottom: 12px;
+  }
+
+  .easter-eggs__heart {
+    left: 12px;
+  }
+
+  .easter-eggs__star-wrap {
+    right: 12px;
+  }
+
+  .secret-heart__button,
+  .easter-eggs__star {
+    width: 42px;
+    height: 42px;
+  }
+
+  .secret-heart .tooltip-message,
+  .easter-eggs__wish {
+    bottom: 52px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-section__title {
+    font-size: 3.2rem;
+  }
+
+  .hero-section__subtitle {
+    font-size: 1.25rem;
+  }
+
+  .compliment-card,
+  .story-section__card,
+  .love-reminder__card {
+    padding-right: 17px;
+    padding-left: 17px;
+  }
+
+  .compliment-card__message {
+    font-size: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-hearts,
+  .interaction-particles {
+    display: none;
+  }
+
+  .compliment-card::before {
+    animation: none;
+  }
+}
