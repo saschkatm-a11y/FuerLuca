@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-const DEFAULT_PAGES_BASE = '/FuerLuca/';
+const DEFAULT_PAGES_BASE = '/';
 
 const normalizeBasePath = (path: string) => {
   const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
@@ -9,8 +9,7 @@ const normalizeBasePath = (path: string) => {
 };
 
 const base = normalizeBasePath(
-  process.env.VITE_BASE_PATH ??
-    (process.env.GITHUB_ACTIONS ? DEFAULT_PAGES_BASE : '/'),
+  process.env.VITE_BASE_PATH ?? DEFAULT_PAGES_BASE,
 );
 
 export default defineConfig({

@@ -86,38 +86,38 @@ Einmalige Einrichtung auf GitHub:
 4. Wähle unter **Build and deployment** als Quelle **GitHub Actions**.
 5. Führe bei Bedarf einen neuen Push auf `main` aus.
 6. Prüfe den Lauf im Tab **Actions**.
-7. Nach erfolgreichem Deployment ist die Projektseite üblicherweise unter `https://DEIN-BENUTZERNAME.github.io/FuerLuca/` erreichbar.
+7. Nach erfolgreichem Deployment ist die Website unter `https://zoey.saschaskaskaden.de/` erreichbar.
 
 Der Workflow kann außerdem im Actions-Tab manuell gestartet werden.
 
-## Repository-Name und Basispfad anpassen
+## Custom Domain und Basispfad
 
-Der erwartete Repository-Slug ist **`FuerLuca`**. Für GitHub Actions wird der Basispfad beim Build automatisch aus dem tatsächlichen Repository-Namen erzeugt:
+Das Repository heißt **`FuerLuca`**, wird aber über die Custom Domain `zoey.saschaskaskaden.de` direkt an der Domain-Wurzel ausgeliefert. Deshalb verwendet der Build den Basispfad `/`:
 
 ```yaml
-VITE_BASE_PATH: "/${{ github.event.repository.name }}/"
+VITE_BASE_PATH: "/"
 ```
 
-Die lokale und manuelle Fallback-Konfiguration steht in `vite.config.ts`:
+Die lokale und manuelle Fallback-Konfiguration steht ebenfalls in `vite.config.ts`:
 
 ```ts
-const DEFAULT_PAGES_BASE = '/FuerLuca/';
+const DEFAULT_PAGES_BASE = '/';
 ```
 
-Wenn du das Repository umbenennst, ändere diesen Fallback ebenfalls. Alternativ kann für einen manuellen Build ein eigener Basispfad gesetzt werden:
+Falls die Custom Domain später entfernt und wieder die normale GitHub-Projektadresse verwendet wird, kann für einen manuellen Build ein eigener Basispfad gesetzt werden:
 
 ```bash
-VITE_BASE_PATH=/anderer-repository-name/ npm run build
+VITE_BASE_PATH=/FuerLuca/ npm run build
 ```
 
 Unter PowerShell lautet derselbe Vorgang:
 
 ```powershell
-$env:VITE_BASE_PATH = "/anderer-repository-name/"
+$env:VITE_BASE_PATH = "/FuerLuca/"
 npm run build
 ```
 
-Bei einer eigenen Domain ohne Unterordner muss der Build-Basispfad `/` sein. Setze dafür im Workflow `VITE_BASE_PATH: "/"`.
+Die Datei `public/CNAME` hält die Custom Domain auch bei neuen statischen Deployments fest. Der DNS-CNAME `zoey` zeigt dafür auf `saschkatm-a11y.github.io`.
 
 ## Persönliche Texte anpassen
 
