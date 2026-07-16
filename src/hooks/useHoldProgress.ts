@@ -11,6 +11,7 @@ export interface HoldProgressControls {
   readonly isHolding: boolean;
   readonly isComplete: boolean;
   readonly start: () => void;
+  readonly end: () => void;
   readonly cancel: () => void;
   readonly reset: () => void;
 }
@@ -27,9 +28,12 @@ export function useHoldProgress({
   const [isHolding, setIsHolding] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const animationFrameRef = useRef<number | null>(null);
-  const timeoutRef = useRef<number | null>(null);
+  const updateTimeoutRef = useRef<number | null>(null);
+  const completionTimeoutRef = useRef<number | null>(null);
   const activeRef = useRef(false);
   const completeRef = useRef(false);
+  const startedAtRef = useRef<number | null>(null);
+  const durationRef = useRef(Math.max(100, duration));
 
   const clearScheduledUpdate = useCallback(() => {
     if (animationFrameRef.current !== null) {
@@ -37,9 +41,14 @@ export function useHoldProgress({
       animationFrameRef.current = null;
     }
 
-    if (timeoutRef.current !== null) {
-      window.clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+    if (updateTimeoutRef.current !== null) {
+      window.clearTimeout(updateTimeoutRef.current);
+      updateTimeoutRef.current = null;
+    }
+
+    if (completionTimeoutRef.current !== null) {
+      window.clearTimeout(completionTimeoutRef.current);
+      completionTimeoutRef.current = null;
     }
   }, []);
 
@@ -48,6 +57,7 @@ export function useHoldProgress({
 
     activeRef.current = false;
     completeRef.current = true;
+    startedAtRef.current = null;
     clearScheduledUpdate();
     setProgress(1);
     setIsHolding(false);
@@ -61,8 +71,12 @@ export function useHoldProgress({
     const safeDuration = Math.max(100, duration);
     const startedAt = getNow();
     activeRef.current = true;
+    startedAtRef.current = startedAt;
+    durationRef.current = safeDuration;
     setIsHolding(true);
     setProgress(0);
+
+    completionTimeoutRef.current = window.setTimeout(finish, safeDuration);
 
     const update = () => {
       if (!activeRef.current) return;
@@ -78,7 +92,7 @@ export function useHoldProgress({
       if (typeof window.requestAnimationFrame === "function") {
         animationFrameRef.current = window.requestAnimationFrame(update);
       } else {
-        timeoutRef.current = window.setTimeout(update, 16);
+        updateTimeoutRef.current = window.setTimeout(update, 16);
       }
     };
 
@@ -89,14 +103,31 @@ export function useHoldProgress({
     if (!activeRef.current) return;
 
     activeRef.current = false;
+    startedAtRef.current = null;
     clearScheduledUpdate();
     setIsHolding(false);
     setProgress(0);
   }, [clearScheduledUpdate]);
 
+  const end = useCallback(() => {
+    if (!activeRef.current) return;
+
+    const startedAt = startedAtRef.current;
+    if (
+      startedAt !== null &&
+      getNow() - startedAt >= durationRef.current
+    ) {
+      finish();
+      return;
+    }
+
+    cancel();
+  }, [cancel, finish]);
+
   const reset = useCallback(() => {
     activeRef.current = false;
     completeRef.current = false;
+    startedAtRef.current = null;
     clearScheduledUpdate();
     setProgress(0);
     setIsHolding(false);
@@ -115,5 +146,5 @@ export function useHoldProgress({
     [clearScheduledUpdate],
   );
 
-  return { progress, isHolding, isComplete, start, cancel, reset };
+  return { progress, isHolding, isComplete, start, end, cancel, reset };
 }

@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useId,
+  useRef,
   type KeyboardEvent,
   type PointerEvent,
 } from "react";
@@ -31,18 +32,32 @@ export function HoldHeartButton({
   onComplete,
 }: HoldHeartButtonProps) {
   const descriptionId = useId();
-  const { progress, isHolding, isComplete, start, cancel, reset } =
+  const { progress, isHolding, isComplete, start, end, cancel, reset } =
     useHoldProgress({ duration, disabled, onComplete });
+  const activePointerRef = useRef<number | null>(null);
+  const activeKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
+    activePointerRef.current = null;
+    activeKeyRef.current = null;
     reset();
   }, [reset, resetKey]);
 
-  const releasePointer = useCallback(
+  const endPointerHold = useCallback(
     (event: PointerEvent<HTMLButtonElement>) => {
-      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-        event.currentTarget.releasePointerCapture(event.pointerId);
-      }
+      if (activePointerRef.current !== event.pointerId) return;
+
+      activePointerRef.current = null;
+      end();
+    },
+    [end],
+  );
+
+  const cancelPointerHold = useCallback(
+    (event: PointerEvent<HTMLButtonElement>) => {
+      if (activePointerRef.current !== event.pointerId) return;
+
+      activePointerRef.current = null;
       cancel();
     },
     [cancel],
@@ -50,11 +65,25 @@ export function HoldHeartButton({
 
   const handlePointerDown = useCallback(
     (event: PointerEvent<HTMLButtonElement>) => {
-      if (event.button !== 0 || disabled || isComplete) return;
+      if (
+        event.button !== 0 ||
+        !event.isPrimary ||
+        disabled ||
+        isComplete ||
+        activePointerRef.current !== null ||
+        activeKeyRef.current !== null
+      ) return;
 
       event.preventDefault();
-      event.currentTarget.setPointerCapture(event.pointerId);
+      activePointerRef.current = event.pointerId;
       start();
+
+      try {
+        event.currentTarget.setPointerCapture(event.pointerId);
+      } catch {
+        // Pointer capture is an enhancement; the window listeners below still
+        // finish or cancel the matching pointer safely when capture is unavailable.
+      }
     },
     [disabled, isComplete, start],
   );
@@ -65,9 +94,12 @@ export function HoldHeartButton({
         (event.key === " " || event.key === "Enter") &&
         !event.repeat &&
         !disabled &&
-        !isComplete
+        !isComplete &&
+        activePointerRef.current === null &&
+        activeKeyRef.current === null
       ) {
         event.preventDefault();
+        activeKeyRef.current = event.key;
         start();
       }
     },
@@ -76,13 +108,52 @@ export function HoldHeartButton({
 
   const handleKeyUp = useCallback(
     (event: KeyboardEvent<HTMLButtonElement>) => {
-      if (event.key === " " || event.key === "Enter") {
+      if (activeKeyRef.current === event.key) {
         event.preventDefault();
-        cancel();
+        activeKeyRef.current = null;
+        end();
       }
     },
-    [cancel],
+    [end],
   );
+
+  const cancelActiveHold = useCallback(() => {
+    activePointerRef.current = null;
+    activeKeyRef.current = null;
+    cancel();
+  }, [cancel]);
+
+  useEffect(() => {
+    if (disabled) cancelActiveHold();
+  }, [cancelActiveHold, disabled]);
+
+  useEffect(() => {
+    const handlePointerUp = (event: globalThis.PointerEvent) => {
+      if (activePointerRef.current !== event.pointerId) return;
+      activePointerRef.current = null;
+      end();
+    };
+    const handlePointerCancel = (event: globalThis.PointerEvent) => {
+      if (activePointerRef.current !== event.pointerId) return;
+      activePointerRef.current = null;
+      cancel();
+    };
+    const handleVisibilityChange = () => {
+      if (document.hidden) cancelActiveHold();
+    };
+
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerCancel);
+    window.addEventListener("blur", cancelActiveHold);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerCancel);
+      window.removeEventListener("blur", cancelActiveHold);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [cancel, cancelActiveHold, end]);
 
   return (
     <div
@@ -100,14 +171,14 @@ export function HoldHeartButton({
         aria-pressed={isComplete}
         className="hold-heart__button"
         disabled={disabled}
-        onBlur={cancel}
+        onBlur={cancelActiveHold}
         onClick={(event) => event.preventDefault()}
+        onContextMenu={(event) => event.preventDefault()}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
-        onLostPointerCapture={cancel}
-        onPointerCancel={releasePointer}
+        onPointerCancel={cancelPointerHold}
         onPointerDown={handlePointerDown}
-        onPointerUp={releasePointer}
+        onPointerUp={endPointerHold}
         type="button"
       >
         <span className="hold-heart__visual" aria-hidden="true">
